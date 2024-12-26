@@ -10,6 +10,7 @@ export default function Authenticated({
     children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
     const user = usePage().props.auth.user;
+    console.log('🚀 ~ user:', user);
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
@@ -32,6 +33,12 @@ export default function Authenticated({
                                     active={route().current('dashboard')}
                                 >
                                     Dashboard
+                                </NavLink>
+                                <NavLink
+                                    href={route('features.index')}
+                                    active={route().current('features.index')}
+                                >
+                                    Features
                                 </NavLink>
                             </div>
                         </div>
