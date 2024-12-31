@@ -1,3 +1,5 @@
+import { Permission } from '@/lib/permissions';
+import { Role } from '@/lib/roles';
 import { Config } from 'ziggy-js';
 
 export interface User {
@@ -5,6 +7,8 @@ export interface User {
     name: string;
     email: string;
     email_verified_at?: string;
+    roles: Role[];
+    permissions: Permission[];
 }
 
 type Nullable<T> = T | null;
