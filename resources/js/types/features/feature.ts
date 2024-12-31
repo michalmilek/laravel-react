@@ -55,3 +55,9 @@ export interface Link {
     label: string;
     active: boolean;
 }
+
+export interface FeatureData {
+    id: number;
+    name: string;
+    description: string;
+}

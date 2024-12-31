@@ -92,7 +92,7 @@ export function FeatureForm({ initialData, onSubmit }: FeatureFormProps) {
                 />
                 <Button type="submit">
                     {/* {isSubmitting ? 'Saving...' : 'Save Feature'} */}
-                    Save Feature
+                    {initialData ? 'Update Feature' : 'Save Feature'}
                 </Button>
             </form>
         </Form>

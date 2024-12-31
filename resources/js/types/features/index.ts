@@ -1,1 +1,1 @@
-export type { Datum } from './feature';
+export type { Datum, FeatureData } from './feature';
