@@ -11,7 +11,7 @@ class Feature extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'user_id'];
+    protected $fillable = ['name', 'description', 'user_id'];
 
     public function upvotes(): HasMany
     {

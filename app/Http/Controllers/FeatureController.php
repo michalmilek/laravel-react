@@ -37,7 +37,7 @@ class FeatureController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => self::VALIDATION_RULE,
+            'name' => self::VALIDATION_RULE,
             'description' => self::VALIDATION_RULE,
         ]);
 
@@ -73,7 +73,7 @@ class FeatureController extends Controller
     public function update(Request $request, Feature $feature)
     {
         $data = $request->validate([
-            'title' => self::VALIDATION_RULE,
+            'name' => self::VALIDATION_RULE,
             'description' => self::VALIDATION_RULE,
         ]);
 

@@ -1,7 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Datum } from '@/types/features';
 import { dateUtils } from '@/utils';
+import { Link } from '@inertiajs/react';
 
 export default function FeatureList({
     features,
@@ -21,26 +23,36 @@ export default function FeatureList({
                             Created on:{' '}
                             {dateUtils.getTimeAgo(feature.created_at)}
                         </p>
-                        <div className="flex items-center">
-                            <Avatar className="mr-2 h-8 w-8">
-                                <AvatarImage
-                                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${feature.user.name}`}
-                                />
-                                <AvatarFallback>
-                                    {feature.user.name
-                                        .split(' ')
-                                        .map((n) => n[0])
-                                        .join('')}
-                                </AvatarFallback>
-                            </Avatar>
-                            <div>
-                                <p className="text-sm font-medium">
-                                    {feature.user.name}
-                                </p>
-                                <p className="text-xs text-gray-500">
-                                    {feature.user.email}
-                                </p>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                                <Avatar className="mr-2 h-8 w-8">
+                                    <AvatarImage
+                                        src={`https://api.dicebear.com/6.x/initials/svg?seed=${feature.user.name}`}
+                                    />
+                                    <AvatarFallback>
+                                        {feature.user.name
+                                            .split(' ')
+                                            .map((n) => n[0])
+                                            .join('')}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className="text-sm font-medium">
+                                        {feature.user.name}
+                                    </p>
+                                    <p className="text-xs text-gray-500">
+                                        {feature.user.email}
+                                    </p>
+                                </div>
                             </div>
+                            <Link
+                                className={buttonVariants({
+                                    variant: 'link',
+                                })}
+                                href={route('features.show', feature.id)}
+                            >
+                                Read More
+                            </Link>
                         </div>
                     </CardContent>
                 </Card>

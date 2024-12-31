@@ -1,6 +1,7 @@
 import '../css/app.css';
 import './bootstrap';
 
+import { Toaster } from '@/components/ui/toaster';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot, hydrateRoot } from 'react-dom/client';
@@ -15,12 +16,19 @@ createInertiaApp({
             import.meta.glob('./Pages/**/*.tsx'),
         ),
     setup({ el, App, props }) {
+        const app = (
+            <>
+                <App {...props} />
+                <Toaster />
+            </>
+        );
+
         if (import.meta.env.SSR) {
-            hydrateRoot(el, <App {...props} />);
+            hydrateRoot(el, app);
             return;
         }
 
-        createRoot(el).render(<App {...props} />);
+        createRoot(el).render(app);
     },
     progress: {
         color: '#4B5563',
