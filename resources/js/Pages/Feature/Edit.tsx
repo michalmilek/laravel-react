@@ -14,7 +14,6 @@ interface FormProps {
 export default function Edit(
     props: PageProps<{ feature: { data: FeatureData } }>,
 ) {
-    console.log('🚀 ~ Edit ~ props:', props);
     const { toast } = useToast();
     const onSubmit = (data: FormProps) => {
         router.patch(

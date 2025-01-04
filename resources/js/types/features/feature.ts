@@ -13,6 +13,8 @@ export interface Datum {
     upvotes: any[];
     comments: any[];
     created_at: string;
+    upvotes_count: number;
+    user_voted: number;
 }
 
 export interface User {

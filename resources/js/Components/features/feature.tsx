@@ -1,3 +1,4 @@
+import { FeatureVote } from '@/Components/features/feature-vote';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -72,9 +73,13 @@ export const Feature = ({ feature }: { feature: Datum }) => {
 
                     <Separator />
 
-                    <div>
+                    <div className="flex flex-col gap-4">
                         <h3 className="text-lg font-semibold">Upvotes</h3>
-                        <p>{feature.upvotes} upvotes</p>
+                        <FeatureVote
+                            userVoted={feature.user_voted}
+                            initialVotes={feature.upvotes_count}
+                            featureId={feature.id.toString()}
+                        />
                     </div>
 
                     <Separator />
@@ -83,8 +88,11 @@ export const Feature = ({ feature }: { feature: Datum }) => {
                         <h3 className="text-lg font-semibold">Comments</h3>
                         {feature.comments.length > 0 ? (
                             <ul className="list-disc pl-5">
-                                {feature.comments.map((comment, index) => (
-                                    <li key={index} className="text-gray-600">
+                                {feature.comments.map((comment) => (
+                                    <li
+                                        key={`comment-${comment.id}`}
+                                        className="text-gray-600"
+                                    >
                                         {comment}
                                     </li>
                                 ))}

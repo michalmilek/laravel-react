@@ -4,7 +4,6 @@ import { Datum } from '@/types/features';
 import { Head } from '@inertiajs/react';
 
 export default function Index({ feature }: { feature?: { data: Datum } }) {
-    console.log('🚀 ~ Index ~ feature:', feature);
     return (
         <AuthenticatedLayout
             header={

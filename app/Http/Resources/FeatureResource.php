@@ -14,6 +14,7 @@ class FeatureResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // dd($this);
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -23,6 +24,8 @@ class FeatureResource extends JsonResource
             'upvotes' => $this->upvotes,
             'comments' => $this->comments,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'upvotes_count' => $this->upvotes_count ?? 0,
+            'user_voted' => $this->user_voted === 1 ? 1 : ($this->user_voted === 0 ? 0 : -1),
         ];
     }
 }
