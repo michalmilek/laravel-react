@@ -1,3 +1,4 @@
+import { FeatureComments } from '@/Components/features/feature-comments';
 import { FeatureVote } from '@/Components/features/feature-vote';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -87,20 +88,10 @@ export const Feature = ({ feature }: { feature: Datum }) => {
 
                     <div>
                         <h3 className="text-lg font-semibold">Comments</h3>
-                        {feature.comments.length > 0 ? (
-                            <ul className="list-disc pl-5">
-                                {feature.comments.map((comment) => (
-                                    <li
-                                        key={`comment-${comment.id}`}
-                                        className="text-gray-600"
-                                    >
-                                        {comment}
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>No comments yet.</p>
-                        )}
+                        <FeatureComments
+                            comments={feature.comments}
+                            featureId={feature.id}
+                        />
                     </div>
 
                     <Separator />

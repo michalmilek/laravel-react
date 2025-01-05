@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FeatureListResource;
 use App\Http\Resources\FeatureResource;
 use App\Models\Feature;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class FeatureController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $paginatedFeatures = Feature::latest()
             ->withExists([
@@ -30,10 +31,11 @@ class FeatureController extends Controller
                         ->where('is_upvote', false);
                 }
             ])
+            ->with('comments')
             ->paginate(10);
     
         return Inertia::render('Feature/Index', [
-            'features' => FeatureResource::collection($paginatedFeatures),
+            'features' => FeatureListResource::collection($paginatedFeatures),
         ]);
     }
 

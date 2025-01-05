@@ -1,3 +1,5 @@
+import { Comment } from '@/types/features/comment';
+
 export interface Feature {
     data: Datum[];
     links: Links;
@@ -11,7 +13,7 @@ export interface Datum {
     status: null;
     user: User;
     upvotes: any[];
-    comments: any[];
+    comments: Comment[];
     created_at: string;
     upvotes_count: number;
     user_voted: boolean;
