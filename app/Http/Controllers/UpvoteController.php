@@ -26,11 +26,11 @@ class UpvoteController extends Controller
             if ((bool)$existingVote->is_upvote === (bool)$request->is_upvote) {
                 // If same vote type exists, remove it (toggle off)
                 $existingVote->delete();
-                return to_route('features.index')->with('message', 'Vote removed');
+                return redirect()->back()->with('message', 'Vote removed');
             } else {
                 // If different vote type exists, update it
                 $existingVote->update(['is_upvote' => $request->is_upvote]);
-                return to_route('features.index')->with('message', 'Vote updated');
+                return redirect()->back()->with('message', 'Vote updated');
             }
         }
 
@@ -41,6 +41,6 @@ class UpvoteController extends Controller
             'is_upvote' => $request->is_upvote
         ]);
 
-        return to_route('features.index')->with('message', 'Vote added');
+        return redirect()->back()->with('message', 'Vote added');
     }
 }

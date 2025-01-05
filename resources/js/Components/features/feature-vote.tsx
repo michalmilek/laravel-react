@@ -52,6 +52,8 @@ export function FeatureVote({
                         );
                         setUserVote(null);
                     },
+                    preserveScroll: true,
+                    preserveState: true,
                 },
             );
         } else {
@@ -78,6 +80,8 @@ export function FeatureVote({
                     onError: (error) => {
                         console.error('Vote failed', error);
                     },
+                    preserveState: true,
+                    preserveScroll: true,
                 },
             );
         }
