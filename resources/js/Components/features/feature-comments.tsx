@@ -1,6 +1,9 @@
+import { ConfirmationModal } from '@/Components/ConfirmationModal';
 import { FeatureComment } from '@/Components/features/feature-comment';
 import { FeatureCommentForm } from '@/Components/features/feature-comment-form';
+import { useToast } from '@/hooks/use-toast';
 import { Comment } from '@/types/features/comment';
+import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
 interface Props {
@@ -9,7 +12,10 @@ interface Props {
 }
 
 export function FeatureComments({ comments, featureId }: Readonly<Props>) {
+    const { toast } = useToast();
     const [editingCommentId, setEditingCommentId] = useState<number>();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [commentToDelete, setCommentToDelete] = useState<number | null>(null);
 
     const handleEdit = (commentId: number) => {
         setEditingCommentId(commentId);
@@ -17,6 +23,36 @@ export function FeatureComments({ comments, featureId }: Readonly<Props>) {
 
     const handleCancel = () => {
         setEditingCommentId(undefined);
+    };
+
+    const handleDelete = (commentId: number) => {
+        setCommentToDelete(commentId);
+        setIsModalOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (commentToDelete) {
+            await router.delete(`/comments/${commentToDelete}`, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    setIsModalOpen(false);
+                    toast({
+                        title: 'Comment deleted',
+                        description:
+                            'The comment has been successfully deleted.',
+                        variant: 'success',
+                    });
+                },
+                onError: () => {
+                    toast({
+                        title: 'Error',
+                        description:
+                            'An error occurred while deleting the comment.',
+                        variant: 'destructive',
+                    });
+                },
+            });
+        }
     };
 
     return (
@@ -28,6 +64,7 @@ export function FeatureComments({ comments, featureId }: Readonly<Props>) {
                             key={`comment-${comment.id}`}
                             {...comment}
                             onEdit={handleEdit}
+                            onDelete={handleDelete}
                         />
                     ))
                 ) : (
@@ -39,6 +76,11 @@ export function FeatureComments({ comments, featureId }: Readonly<Props>) {
                 commentId={editingCommentId}
                 comments={comments}
                 onCancel={handleCancel}
+            />
+            <ConfirmationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onConfirm={confirmDelete}
             />
         </div>
     );

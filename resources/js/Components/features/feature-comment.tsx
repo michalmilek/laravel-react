@@ -2,9 +2,16 @@ import { Comment } from '@/types/features';
 
 interface Props extends Readonly<Comment> {
     onEdit: (commentId: number) => void;
+    onDelete: (commentId: number) => void;
 }
 
-export function FeatureComment({ comment, created_at, id, onEdit }: Props) {
+export function FeatureComment({
+    comment,
+    created_at,
+    id,
+    onEdit,
+    onDelete,
+}: Props) {
     return (
         <div className="flex space-x-4 rounded-lg bg-white p-4 shadow">
             {/* <Avatar>
@@ -21,6 +28,12 @@ export function FeatureComment({ comment, created_at, id, onEdit }: Props) {
                         className="text-blue-500"
                     >
                         Edit
+                    </button>
+                    <button
+                        onClick={() => onDelete(id)}
+                        className="text-red-500"
+                    >
+                        Delete
                     </button>
                 </div>
                 <p className="text-gray-700">{comment}</p>
