@@ -27,4 +27,19 @@ class Feature extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // Updated accessor for upvotes_count
+    public function getUpvotesCountAttribute()
+    {
+        $positiveVotes = $this->upvotes()->where('is_upvote', true)->count();
+        $negativeVotes = $this->upvotes()->where('is_upvote', false)->count();
+        
+        return $positiveVotes - $negativeVotes;
+    }
+
+    // Accessor for user_voted
+    public function getUserVotedAttribute()
+    {
+        return $this->upvotes()->where('user_id', auth()->id())->first() ? 1 : 0;
+    }
 }

@@ -21,11 +21,12 @@ class FeatureResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
             'user' => $this->user,
-            'upvotes' => $this->upvotes,
+            'upvotes_count' => $this->upvotes_count,
+            'user_voted' => $this->user_voted ? true : false,
+            'is_upvote' => $this->is_upvote,
+            'is_downvote' => $this->is_downvote,
             'comments' => $this->comments,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'upvotes_count' => $this->upvotes_count ?? 0,
-            'user_voted' => $this->user_voted === 1 ? 1 : ($this->user_voted === 0 ? 0 : -1),
         ];
     }
 }

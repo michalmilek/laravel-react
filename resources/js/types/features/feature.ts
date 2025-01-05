@@ -14,7 +14,9 @@ export interface Datum {
     comments: any[];
     created_at: string;
     upvotes_count: number;
-    user_voted: number;
+    user_voted: boolean;
+    is_upvote: boolean;
+    is_downvote: boolean;
 }
 
 export interface User {

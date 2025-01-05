@@ -1,3 +1,4 @@
+import { FeatureVote } from '@/Components/features/feature-vote';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,6 +28,7 @@ export default function FeatureList({
 }: Readonly<{
     features?: Datum[];
 }>) {
+    console.log('🚀 ~ features:', features);
     const user = usePage().props.auth.user;
     const [featureToDelete, setFeatureToDelete] = useState<number | null>(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -157,6 +159,15 @@ export default function FeatureList({
                                 >
                                     Read More
                                 </Link>
+                            </div>
+                            <div className="mt-4">
+                                <FeatureVote
+                                    featureId={feature.id.toString()}
+                                    userVoted={feature.user_voted}
+                                    initialVotes={feature.upvotes_count}
+                                    isUpvote={feature.is_upvote}
+                                    isDownvote={feature.is_downvote}
+                                />
                             </div>
                         </CardContent>
                     </Card>

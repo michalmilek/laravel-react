@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { Datum } from '@/types/features';
 
 export const Feature = ({ feature }: { feature: Datum }) => {
+    console.log('🚀 ~ Feature ~ feature:', feature);
     return (
         <div className="container mx-auto p-4">
             <Card className="mx-auto w-full max-w-3xl">

@@ -17,13 +17,21 @@ class FeatureController extends Controller
      */
     public function index()
     {
-        $paginatedFeatures = Feature::latest()->withCount(['upvotes as upvotes_count' => function ($query) {
-            $query->select(DB::raw('SUM(CASE WHEN is_upvote = 1 THEN 1 WHEN is_upvote IS NULL THEN 0 ELSE -1 END) as upvotes_count'));
-        }])->withExists(['upvotes as user_voted' => function ($query) {
-            $query->select(DB::raw('CASE WHEN is_upvote = 1 THEN 1 WHEN is_upvote = 0 THEN 0 ELSE -1 END'))
-                  ->where('user_id', auth()->id());
-        }])->paginate(10);
-
+        $paginatedFeatures = Feature::latest()
+            ->withExists([
+                'upvotes as is_upvote' => function ($query) {
+                    $query->where('user_id', auth()->id())
+                        ->where('is_upvote', true);
+                }
+            ])
+            ->withExists([
+                'upvotes as is_downvote' => function ($query) {
+                    $query->where('user_id', auth()->id())
+                        ->where('is_upvote', false);
+                }
+            ])
+            ->paginate(10);
+    
         return Inertia::render('Feature/Index', [
             'features' => FeatureResource::collection($paginatedFeatures),
         ]);
@@ -58,13 +66,8 @@ class FeatureController extends Controller
      */
     public function show(Feature $feature)
     {
-        $feature->loadCount('upvotes');
-        $feature->loadExists(['upvotes as user_voted' => function ($query) {
-            $query->where('user_id', auth()->id());
-        }]);
-
         return Inertia::render('Feature/Show', [
-            'feature' => new FeatureResource($feature),
+            'feature' => new FeatureResource($feature)
         ]);
     }
 

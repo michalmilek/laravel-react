@@ -5,32 +5,37 @@ import { useState } from 'react';
 
 interface FeatureVoteProps {
     initialVotes?: number;
-    userVoted?: number; // 1 for upvote, 0 for not voted, -1 for downvote
+    userVoted?: boolean;
     featureId: string;
+    isUpvote?: boolean;
+    isDownvote?: boolean;
 }
 
 type VoteType = 'up' | 'down';
 
 export function FeatureVote({
     initialVotes = 0,
-    userVoted = 0,
+    userVoted = false,
     featureId,
+    isUpvote = false,
+    isDownvote = false,
 }: Readonly<FeatureVoteProps>) {
+    console.log('🚀 ~ userVoted:', userVoted);
     // Convert numeric vote to internal state
-    const getInitialVote = (vote: number): VoteType | null => {
-        switch (vote) {
-            case 1:
-                return 'up';
-            case -1:
-                return 'down';
-            default:
-                return null;
+    const getInitialVote = (
+        userVoted: boolean,
+        isUpvote: boolean,
+        isDownvote: boolean,
+    ): VoteType | null => {
+        if (userVoted) {
+            return isUpvote ? 'up' : isDownvote ? 'down' : null;
         }
+        return null;
     };
 
     const [votes, setVotes] = useState(initialVotes);
     const [userVote, setUserVote] = useState<VoteType | null>(
-        getInitialVote(userVoted),
+        getInitialVote(userVoted, isUpvote, isDownvote),
     );
 
     const handleVote = (voteType: VoteType) => {
