@@ -28,7 +28,6 @@ export default function FeatureList({
 }: Readonly<{
     features?: Datum[];
 }>) {
-    console.log('🚀 ~ features:', features);
     const user = usePage().props.auth.user;
     const [featureToDelete, setFeatureToDelete] = useState<number | null>(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);

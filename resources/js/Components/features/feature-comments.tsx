@@ -9,9 +9,16 @@ import { useState } from 'react';
 interface Props {
     comments: Comment[];
     featureId: number;
+    userRole: 'admin' | 'moderator' | 'user';
+    userId: number;
 }
 
-export function FeatureComments({ comments, featureId }: Readonly<Props>) {
+export function FeatureComments({
+    comments,
+    featureId,
+    userRole,
+    userId,
+}: Readonly<Props>) {
     const { toast } = useToast();
     const [editingCommentId, setEditingCommentId] = useState<number>();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,7 +39,7 @@ export function FeatureComments({ comments, featureId }: Readonly<Props>) {
 
     const confirmDelete = async () => {
         if (commentToDelete) {
-            await router.delete(`/comments/${commentToDelete}`, {
+            router.delete(`/comments/${commentToDelete}`, {
                 preserveScroll: true,
                 onSuccess: () => {
                     setIsModalOpen(false);
@@ -65,6 +72,8 @@ export function FeatureComments({ comments, featureId }: Readonly<Props>) {
                             {...comment}
                             onEdit={handleEdit}
                             onDelete={handleDelete}
+                            userRole={userRole}
+                            isAuthor={comment.user.id === userId}
                         />
                     ))
                 ) : (

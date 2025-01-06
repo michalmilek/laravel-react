@@ -20,16 +20,23 @@ export function FeatureVote({
     isUpvote = false,
     isDownvote = false,
 }: Readonly<FeatureVoteProps>) {
-    console.log('🚀 ~ userVoted:', userVoted);
-    // Convert numeric vote to internal state
     const getInitialVote = (
         userVoted: boolean,
         isUpvote: boolean,
         isDownvote: boolean,
     ): VoteType | null => {
-        if (userVoted) {
-            return isUpvote ? 'up' : isDownvote ? 'down' : null;
+        if (!userVoted) {
+            return null;
         }
+
+        if (isUpvote) {
+            return 'up';
+        }
+
+        if (isDownvote) {
+            return 'down';
+        }
+
         return null;
     };
 

@@ -4,6 +4,8 @@ import { Comment } from '@/types/features';
 interface Props extends Readonly<Comment> {
     onEdit: (commentId: number) => void;
     onDelete: (commentId: number) => void;
+    userRole: 'admin' | 'moderator' | 'user';
+    isAuthor: boolean;
 }
 
 export function FeatureComment({
@@ -13,6 +15,8 @@ export function FeatureComment({
     onEdit,
     onDelete,
     user,
+    userRole,
+    isAuthor,
 }: Props) {
     const name2 = user.name
         .split(' ')
@@ -34,18 +38,24 @@ export function FeatureComment({
                     <span className="text-sm text-gray-500">
                         {new Date(created_at).toLocaleDateString()}
                     </span>
-                    <button
-                        onClick={() => onEdit(id)}
-                        className="text-blue-500"
-                    >
-                        Edit
-                    </button>
-                    <button
-                        onClick={() => onDelete(id)}
-                        className="text-red-500"
-                    >
-                        Delete
-                    </button>
+                    {userRole === 'admin' ||
+                    userRole === 'moderator' ||
+                    isAuthor ? (
+                        <>
+                            <button
+                                onClick={() => onEdit(id)}
+                                className="text-blue-500"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                onClick={() => onDelete(id)}
+                                className="text-red-500"
+                            >
+                                Delete
+                            </button>
+                        </>
+                    ) : null}
                 </div>
                 <p className="text-gray-700">{comment}</p>
             </div>

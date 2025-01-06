@@ -4,10 +4,25 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import { Datum } from '@/types/features';
+import { useCallback } from 'react';
 
 export const Feature = ({ feature }: { feature: Datum }) => {
-    console.log('🚀 ~ Feature ~ feature:', feature);
+    const user = useCurrentUser();
+
+    const getUserRole = useCallback(() => {
+        if (user?.roles.includes('admin')) {
+            return 'admin';
+        } else if (user?.roles.includes('moderator')) {
+            return 'moderator';
+        } else {
+            return 'user';
+        }
+    }, [user]);
+
+    const userRole = getUserRole();
+
     return (
         <div className="container mx-auto p-4">
             <Card className="mx-auto w-full max-w-3xl">
@@ -91,6 +106,8 @@ export const Feature = ({ feature }: { feature: Datum }) => {
                         <FeatureComments
                             comments={feature.comments}
                             featureId={feature.id}
+                            userRole={userRole}
+                            userId={user?.id ?? 0}
                         />
                     </div>
 
