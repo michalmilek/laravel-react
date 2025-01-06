@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Comment } from '@/types/features';
 
 interface Props extends Readonly<Comment> {
@@ -11,15 +12,25 @@ export function FeatureComment({
     id,
     onEdit,
     onDelete,
+    user,
 }: Props) {
+    const name2 = user.name
+        .split(' ')
+        .map((name) => name[0])
+        .join('')
+        .toUpperCase();
+
     return (
         <div className="flex space-x-4 rounded-lg bg-white p-4 shadow">
-            {/* <Avatar>
-                <AvatarFallback>{author[0].toUpperCase()}</AvatarFallback>
-            </Avatar> */}
+            <Avatar>
+                <AvatarImage
+                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${user.name}`}
+                />
+                <AvatarFallback>{name2}</AvatarFallback>
+            </Avatar>
             <div className="flex-1">
                 <div className="mb-1 flex items-center space-x-2">
-                    {/* <span className="font-semibold">{author}</span> */}
+                    <span className="font-semibold">{user.name}</span>
                     <span className="text-sm text-gray-500">
                         {new Date(created_at).toLocaleDateString()}
                     </span>

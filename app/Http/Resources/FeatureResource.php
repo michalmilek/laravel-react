@@ -30,7 +30,10 @@ class FeatureResource extends JsonResource
                 return [
                     'id' => $comment->id,
                     'comment' => $comment->comment,
-                    'user' => $comment->user,
+                    'user' => [
+                        'id' => $comment->user->id,
+                        'name' => $comment->user->name,
+                    ],
                     'created_at' => $comment->created_at->format('Y-m-d H:i:s'),
                 ];
             }),

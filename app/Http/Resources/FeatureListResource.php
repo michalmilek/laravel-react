@@ -14,7 +14,7 @@ class FeatureListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        dd($this);
+        // dd($this);
         return [
             'id' => $this->id,
             'name' => $this->name,

@@ -126,9 +126,32 @@ export function FeatureCommentForm({
             {errors.comment && (
                 <span className="text-red-500">{errors.comment.message}</span>
             )}
-            <Button type="submit">
-                {commentId ? 'Update Comment' : 'Post Comment'}
-            </Button>
+            <div className="flex items-center gap-6">
+                <Button type="submit">
+                    {commentId ? 'Update Comment' : 'Post Comment'}
+                </Button>
+                {commentId && (
+                    <div className="flex items-center gap-2">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={onCancel}
+                        >
+                            Cancel editing
+                        </Button>
+                        <span>
+                            You're editing comment{' '}
+                            <span className="font-bold">
+                                {
+                                    comments.find(
+                                        (comment) => comment.id === commentId,
+                                    )?.comment
+                                }
+                            </span>
+                        </span>
+                    </div>
+                )}
+            </div>
         </form>
     );
 }
