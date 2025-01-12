@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Datum } from '@/types/features';
+import { Link } from '@inertiajs/react';
 import { useCallback } from 'react';
 
 export const Feature = ({ feature }: { feature: Datum }) => {
@@ -27,6 +28,12 @@ export const Feature = ({ feature }: { feature: Datum }) => {
         <div className="container mx-auto p-4">
             <Card className="mx-auto w-full max-w-3xl">
                 <CardHeader>
+                    <div className="flex justify-between text-sm text-gray-500">
+                        <p>
+                            Created:{' '}
+                            {new Date(feature.created_at).toLocaleString()}
+                        </p>
+                    </div>
                     <div className="flex items-center justify-between">
                         <CardTitle className="text-2xl font-bold">
                             {feature.name}
@@ -60,32 +67,23 @@ export const Feature = ({ feature }: { feature: Datum }) => {
                                         .join('')}
                                 </AvatarFallback>
                             </Avatar>
-                            <div>
-                                <p className="font-medium">
+                            <div className="flex flex-col">
+                                <Link
+                                    href={route('user.profile', {
+                                        id: feature.user.id,
+                                    })}
+                                    className="font-medium"
+                                >
                                     {feature.user.name}
-                                </p>
-                                <p className="text-sm text-gray-500">
+                                </Link>
+                                <a
+                                    href={`mailto:${feature.user.email}`}
+                                    className="text-sm text-gray-500"
+                                >
                                     {feature.user.email}
-                                </p>
+                                </a>
                             </div>
                         </div>
-                        <p className="mt-2 text-sm text-gray-500">
-                            User ID: {feature.user.id}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                            Email Verified:{' '}
-                            {new Date(
-                                feature.user.email_verified_at,
-                            ).toLocaleString()}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                            User Created:{' '}
-                            {new Date(feature.user.created_at).toLocaleString()}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                            User Updated:{' '}
-                            {new Date(feature.user.updated_at).toLocaleString()}
-                        </p>
                     </div>
 
                     <Separator />
@@ -109,16 +107,6 @@ export const Feature = ({ feature }: { feature: Datum }) => {
                             userRole={userRole}
                             userId={user?.id ?? 0}
                         />
-                    </div>
-
-                    <Separator />
-
-                    <div className="flex justify-between text-sm text-gray-500">
-                        <p>
-                            Created:{' '}
-                            {new Date(feature.created_at).toLocaleString()}
-                        </p>
-                        <p>ID: {feature.id}</p>
                     </div>
                 </CardContent>
             </Card>
