@@ -18,7 +18,6 @@ export default function Index({ feature }: { feature?: { data: Datum } }) {
             <Head title="Feature" />
 
             {feature && <Feature feature={feature.data} />}
-            {user && <div>Welcome, {user.name}!</div>}
         </AuthenticatedLayout>
     );
 }
