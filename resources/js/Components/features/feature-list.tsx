@@ -141,13 +141,22 @@ export default function FeatureList({
                                                 .join('')}
                                         </AvatarFallback>
                                     </Avatar>
-                                    <div>
-                                        <p className="text-sm font-medium">
+                                    <div className="flex flex-col">
+                                        <Link
+                                            className="text-sm font-medium"
+                                            href={route(
+                                                'user.profile',
+                                                feature.user.id,
+                                            )}
+                                        >
                                             {feature.user.name}
-                                        </p>
-                                        <p className="text-xs text-gray-500">
+                                        </Link>
+                                        <a
+                                            className="text-xs text-gray-500"
+                                            href={`mailto:${feature.user.email}`}
+                                        >
                                             {feature.user.email}
-                                        </p>
+                                        </a>
                                     </div>
                                 </div>
                                 <Link

@@ -103,7 +103,7 @@ export const UserProfile = ({
         <>
             <Card
                 className={clsx(
-                    'mx-auto mt-4 w-full',
+                    'container mx-auto mt-12 w-full',
                     !isFullWidth && 'max-w-md',
                     isFullWidth && 'max-w-7xl',
                 )}
