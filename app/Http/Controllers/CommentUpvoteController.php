@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Upvote;
-use App\Models\Feature;
+use App\Models\Comment;
+use App\Models\CommentUpvote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class UpvoteController extends Controller
+class CommentUpvoteController extends Controller
 {
-    /**
-     * Toggle upvote for a feature
-     */
-    public function toggle(Request $request, Feature $feature)
+    public function toggle(Request $request, Comment $comment)
     {
         $user = Auth::user();
         
-        $existingVote = Upvote::where('user_id', $user->id)
-            ->where('feature_id', $feature->id)
+        $existingVote = CommentUpvote::where('user_id', $user->id)
+            ->where('comment_id', $comment->id)
             ->first();
 
         if ($existingVote) {
@@ -33,9 +30,9 @@ class UpvoteController extends Controller
         }
 
         // Create new vote
-        Upvote::create([
+        CommentUpvote::create([
             'user_id' => $user->id,
-            'feature_id' => $feature->id,
+            'comment_id' => $comment->id,
             'is_upvote' => $request->is_upvote
         ]);
 

@@ -31,6 +31,12 @@ class FeatureController extends Controller
                         ->where('is_upvote', false);
                 }
             ])
+            ->withExists([
+                'comments as is_comment_upvote' => function ($query) {
+                    $query->where('user_id', auth()->id())
+                        ->where('is_upvote', true);
+                }
+            ])
             ->with('comments')
             ->paginate(10);
     

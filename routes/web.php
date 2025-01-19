@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentUpvoteController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UpvoteController;
@@ -32,6 +33,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('comments/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
         Route::get('/user/{id}', [UserProfileController::class, 'show'])->name('user.profile');
+
+        Route::post('comments/{comment}/vote', [CommentUpvoteController::class, 'toggle']);
     });
 
 });

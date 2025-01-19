@@ -7,4 +7,8 @@ export interface Comment {
         id: number;
         name: string;
     };
+    is_downvote: boolean;
+    is_upvote: boolean;
+    upvotes_count: number;
+    user_voted: boolean;
 }

@@ -35,6 +35,10 @@ class FeatureResource extends JsonResource
                         'name' => $comment->user->name,
                     ],
                     'created_at' => $comment->created_at->format('Y-m-d H:i:s'),
+                    'upvotes_count' => $comment->upvotes_count,
+                    'user_voted' => $comment->user_voted ? true : false,
+                    'is_upvote' => $comment->is_upvote,
+                    'is_downvote' => $comment->is_downvote,
                 ];
             }),
         ];
