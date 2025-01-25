@@ -3,17 +3,22 @@ import Dropdown from '@/Components/Dropdown';
 import Footer from '@/Components/Footer';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useCurrentUser } from '@/hooks/use-current-user';
+import { getAvatarUrl } from '@/lib/utils';
+import { Link } from '@inertiajs/react';
 import { PropsWithChildren, ReactNode, useState } from 'react';
 
 export default function Authenticated({
     header,
     children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
-    const user = usePage().props.auth.user;
+    const user = useCurrentUser();
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+    const avatarUrl = getAvatarUrl(user?.avatar);
 
     return (
         <>
@@ -53,9 +58,19 @@ export default function Authenticated({
                                             <span className="inline-flex rounded-md">
                                                 <button
                                                     type="button"
-                                                    className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+                                                    className="inline-flex items-center gap-4 rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
                                                 >
-                                                    {user.name}
+                                                    <Avatar className="h-9 w-9">
+                                                        <AvatarImage
+                                                            src={
+                                                                avatarUrl || ''
+                                                            }
+                                                        />
+                                                        <AvatarFallback>
+                                                            {user?.name[0]}
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                    {user?.name}
 
                                                     <svg
                                                         className="-me-0.5 ms-2 h-4 w-4"

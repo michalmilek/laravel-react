@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,6 +22,7 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'user' => $request->user(),
         ]);
     }
 
@@ -59,5 +61,25 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        // Validate the uploaded file
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max size as needed
+        ]);
+
+        //removing previous one
+        if ($request->user()->avatar) {
+            Storage::disk('public')->delete($request->user()->avatar);
+        }
+
+        // Store the avatar and update the user's record
+        $request->user()->update([
+            'avatar' => $request->file('avatar')->store('avatars', 'public'),
+        ]);
+
+        return Redirect::route('profile.edit');
     }
 }

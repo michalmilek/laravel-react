@@ -23,6 +23,7 @@ class AuthUserResource extends JsonResource
             'email_verified_at' => $this->email_verified_at,
             'roles' => $this->getRoleNames(),
             'permissions' => $this->getAllPermissions()->map(fn ($permission) => $permission->name),
+            'avatar' => $this->avatar,
         ];
     }
 }

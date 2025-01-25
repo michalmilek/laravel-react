@@ -20,6 +20,7 @@ class CommentResource extends JsonResource
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
+                'avatar' => $this->user->avatar,
             ],
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'upvotes_count' => $this->upvotes_count,

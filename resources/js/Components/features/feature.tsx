@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { getAvatarUrl } from '@/lib/utils';
 import { Datum } from '@/types/features';
 import { Link } from '@inertiajs/react';
 import { useCallback } from 'react';
@@ -59,13 +60,12 @@ export const Feature = ({ feature }: { feature: Datum }) => {
                         <div className="flex items-center">
                             <Avatar className="mr-2 h-10 w-10">
                                 <AvatarImage
-                                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${feature.user.name}`}
+                                    src={
+                                        getAvatarUrl(feature.user.avatar) || ''
+                                    }
                                 />
                                 <AvatarFallback>
-                                    {feature.user.name
-                                        .split(' ')
-                                        .map((n) => n[0])
-                                        .join('')}
+                                    {feature.user.name[0]}
                                 </AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">

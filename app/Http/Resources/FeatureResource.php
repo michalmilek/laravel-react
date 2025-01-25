@@ -33,6 +33,7 @@ class FeatureResource extends JsonResource
                     'user' => [
                         'id' => $comment->user->id,
                         'name' => $comment->user->name,
+                        'avatar' => $comment->user->avatar,
                     ],
                     'created_at' => $comment->created_at->format('Y-m-d H:i:s'),
                     'upvotes_count' => $comment->upvotes_count,

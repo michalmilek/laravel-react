@@ -9,6 +9,7 @@ export interface User {
     email_verified_at?: string;
     roles: Role[];
     permissions: Permission[];
+    avatar: string | null;
 }
 
 type Nullable<T> = T | null;
@@ -40,3 +41,13 @@ export type Paginated<T> = {
         total: number;
     };
 };
+
+export interface UserProfile {
+    avatar: string | null;
+    created_at: string;
+    email: string;
+    email_verified_at: string;
+    id: number;
+    name: string;
+    updated_at: string;
+}

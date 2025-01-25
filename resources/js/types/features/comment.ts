@@ -6,6 +6,7 @@ export interface Comment {
     user: {
         id: number;
         name: string;
+        avatar?: string | null;
     };
     is_downvote: boolean;
     is_upvote: boolean;

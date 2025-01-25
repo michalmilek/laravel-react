@@ -17,6 +17,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/hooks/use-toast';
+import { getAvatarUrl } from '@/lib/utils';
 import { Datum } from '@/types/features';
 import { dateUtils } from '@/utils';
 import { Link, router, usePage } from '@inertiajs/react';
@@ -132,7 +133,11 @@ export default function FeatureList({
                                 <div className="flex items-center">
                                     <Avatar className="mr-2 h-8 w-8">
                                         <AvatarImage
-                                            src={`https://api.dicebear.com/6.x/initials/svg?seed=${feature.user.name}`}
+                                            src={
+                                                getAvatarUrl(
+                                                    feature.user.avatar,
+                                                ) || ''
+                                            }
                                         />
                                         <AvatarFallback>
                                             {feature.user.name

@@ -1,5 +1,6 @@
 import { FeatureCommentVote } from '@/Components/features/feature-comment-vote';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getAvatarUrl } from '@/lib/utils';
 import { Comment } from '@/types/features';
 
 interface Props extends Readonly<Comment> {
@@ -22,6 +23,7 @@ export function FeatureComment({
     is_downvote,
     upvotes_count,
     user_voted,
+    avatar,
 }: Props) {
     const name2 = user.name
         .split(' ')
@@ -32,9 +34,7 @@ export function FeatureComment({
     return (
         <div className="flex space-x-4 rounded-lg bg-white p-4 shadow">
             <Avatar>
-                <AvatarImage
-                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${user.name}`}
-                />
+                <AvatarImage src={getAvatarUrl(user.avatar) || ''} />
                 <AvatarFallback>{name2}</AvatarFallback>
             </Avatar>
             <div className="flex-1">

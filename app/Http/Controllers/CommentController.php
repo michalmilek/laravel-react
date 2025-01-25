@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Feature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 
 class CommentController extends Controller
 {
@@ -24,7 +22,6 @@ class CommentController extends Controller
 
         $data['user_id'] = Auth::id();
         $data['feature_id'] = $feature->id;
-
         Comment::create($data);
 
         // Redirect back to the feature page with the new comment

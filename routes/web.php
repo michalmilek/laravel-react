@@ -24,6 +24,8 @@ Route::middleware('auth')->group(function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');
 
+        Route::post(PROFILE_ROUTE . '/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.updateAvatar');
+
         Route::resource('features', FeatureController::class);
 
         Route::post('features/{feature}/vote', [UpvoteController::class, 'toggle']);

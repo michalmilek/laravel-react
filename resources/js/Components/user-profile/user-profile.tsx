@@ -26,6 +26,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Textarea } from '@/components/ui/textarea';
+import { getAvatarUrl } from '@/lib/utils';
 import { User } from '@/types/user-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
@@ -111,7 +112,7 @@ export const UserProfile = ({
                 <CardHeader className="flex flex-row items-center gap-4">
                     <Avatar className="h-16 w-16">
                         <AvatarImage
-                            src={`https://api.dicebear.com/6.x/initials/svg?seed=${user.name}`}
+                            src={getAvatarUrl(user.avatar) || ''}
                             alt={user.name}
                         />
                         <AvatarFallback>
