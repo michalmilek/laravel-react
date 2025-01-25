@@ -26,6 +26,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Textarea } from '@/components/ui/textarea';
+import { UserStatsCard } from '@/Components/user-profile/user-stats-card';
 import { getAvatarUrl } from '@/lib/utils';
 import { User } from '@/types/user-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -115,12 +116,7 @@ export const UserProfile = ({
                             src={getAvatarUrl(user.avatar) || ''}
                             alt={user.name}
                         />
-                        <AvatarFallback>
-                            {user.name
-                                .split(' ')
-                                .map((n) => n[0])
-                                .join('')}
-                        </AvatarFallback>
+                        <AvatarFallback>{user.name[0]}</AvatarFallback>
                     </Avatar>
                     <div>
                         <CardTitle>{user.name}</CardTitle>
@@ -135,12 +131,22 @@ export const UserProfile = ({
                             <Badge variant="default">Verified</Badge>
                         )}
                     </div>
-                    <p className="text-sm">
-                        Member since: {formatDate(user.created_at)}
-                    </p>
-                    <p className="text-sm">
-                        Last updated: {formatDate(user.updated_at)}
-                    </p>
+                    <div className="flex items-center gap-12">
+                        <div className="flex flex-col gap-2">
+                            <p className="text-sm">
+                                Member since: {formatDate(user.created_at)}
+                            </p>
+                            <p className="text-sm">
+                                Last updated: {formatDate(user.updated_at)}
+                            </p>
+                        </div>
+                        <UserStatsCard
+                            stats={{
+                                commentsMade: user.comments_count ?? 0,
+                                featuresCreated: user.features_count ?? 0,
+                            }}
+                        />
+                    </div>
                 </CardContent>
                 <CardFooter className="flex justify-between">
                     <div className="flex gap-2">

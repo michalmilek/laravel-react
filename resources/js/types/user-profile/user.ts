@@ -6,4 +6,6 @@ export interface User {
     created_at: string;
     updated_at: string;
     avatar?: string | null;
+    features_count?: number;
+    comments_count?: number;
 }

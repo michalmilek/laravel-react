@@ -11,7 +11,6 @@ import { Link } from '@inertiajs/react';
 import { useCallback } from 'react';
 
 export const Feature = ({ feature }: { feature: Datum }) => {
-    console.log('🚀 ~ Feature ~ feature:', feature);
     const user = useCurrentUser();
 
     const getUserRole = useCallback(() => {
