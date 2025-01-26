@@ -1,14 +1,23 @@
 import { UserProfile as UserProfileComponent } from '@/Components/user-profile';
+import { UserFeatures } from '@/Components/user-profile/user-features';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Datum } from '@/types/features/feature';
 import { User } from '@/types/user-profile';
 import { Head } from '@inertiajs/react';
 
-interface UserProfileProps {
-    user: User;
+interface DatumWithCommentsCount extends Datum {
+    comments_count: number;
 }
 
-export default function UserProfile({ user }: Readonly<UserProfileProps>) {
-    console.log('🚀 ~ UserProfile ~ user:', user);
+interface UserProfileProps {
+    user: User;
+    features?: DatumWithCommentsCount[];
+}
+
+export default function UserProfile({
+    user,
+    features,
+}: Readonly<UserProfileProps>) {
     return (
         <AuthenticatedLayout
             header={
@@ -19,6 +28,7 @@ export default function UserProfile({ user }: Readonly<UserProfileProps>) {
         >
             <Head title={`${user.name}'s Profile sss`} />
             <UserProfileComponent isFullWidth user={user} />
+            {features && <UserFeatures features={features} isFullWidth />}
         </AuthenticatedLayout>
     );
 }
