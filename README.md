@@ -14,9 +14,9 @@ This project is a something like Reddit built with Laravel and PHP, designed to 
 - **Direct Messaging**: Users can send private messages to each other.
 - **Live Chat**: Real-time chat functionality for users to communicate instantly.
 - **User Profiles**: Each user has a profile page displaying their posts and activity.
-- **Upvote/Downvote System**: Users can upvote or downvote posts and comments.
+- **Upvote/Downvote System**: Users can upvote or downvote posts and comments. The system tracks whether a user has upvoted or downvoted a comment.
 - **Search Functionality**: Users can search for posts and users.
-
+- **Tagging System**: Users can tag posts with multiple tags.
 ## Technologies Used
 
 - **Laravel**: PHP framework for building the application.
