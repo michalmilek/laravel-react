@@ -3,7 +3,7 @@ import { UserFeatures } from '@/Components/user-profile/user-features';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Datum } from '@/types/features/feature';
 import { User } from '@/types/user-profile';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
 interface DatumWithCommentsCount extends Datum {
     comments_count: number;
@@ -18,6 +18,13 @@ export default function UserProfile({
     user,
     features,
 }: Readonly<UserProfileProps>) {
+    const handlePageChange = (page: number) => {
+        router.get(`/user/${user.id}?view=features&page=${page}`, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    };
+
     return (
         <AuthenticatedLayout
             header={
@@ -29,6 +36,31 @@ export default function UserProfile({
             <Head title={`${user.name}'s Profile sss`} />
             <UserProfileComponent isFullWidth user={user} />
             {features && <UserFeatures features={features} isFullWidth />}
+
+            {/* Pagination Controls */}
+            <div>
+                {features?.prev_page_url && (
+                    <button
+                        onClick={() =>
+                            handlePageChange(features.current_page - 1)
+                        }
+                    >
+                        Previous
+                    </button>
+                )}
+                <span>
+                    Page {features?.current_page} of {features?.last_page}
+                </span>
+                {features?.next_page_url && (
+                    <button
+                        onClick={() =>
+                            handlePageChange(features.current_page + 1)
+                        }
+                    >
+                        Next
+                    </button>
+                )}
+            </div>
         </AuthenticatedLayout>
     );
 }

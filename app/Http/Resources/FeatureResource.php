@@ -26,6 +26,7 @@ class FeatureResource extends JsonResource
             'is_downvote' => $this->is_downvote,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'comments_count' => $this->comments_count,
+            'tags' => $this->tags,
             'comments' => $this->comments->map(function ($comment) {
                 return [
                     'id' => $comment->id,

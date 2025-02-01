@@ -7,6 +7,7 @@ import { Head, router } from '@inertiajs/react';
 interface FormProps {
     name: string;
     description: string;
+    tags: string[];
 }
 
 export default function Index() {
@@ -17,6 +18,7 @@ export default function Index() {
             {
                 name: data.name,
                 description: data.description,
+                tags: data.tags,
             },
             {
                 onSuccess: () => {

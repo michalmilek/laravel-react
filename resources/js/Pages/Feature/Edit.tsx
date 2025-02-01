@@ -9,6 +9,7 @@ import { Head, router } from '@inertiajs/react';
 interface FormProps {
     name: string;
     description: string;
+    tags: string[];
 }
 
 export default function Edit(
@@ -21,6 +22,7 @@ export default function Edit(
             {
                 name: data.name,
                 description: data.description,
+                tags: data.tags,
             },
             {
                 onSuccess: () => {
@@ -29,7 +31,8 @@ export default function Edit(
                         variant: 'success',
                     });
                 },
-                onError: () => {
+                onError: (error) => {
+                    console.log(error);
                     toast({
                         title: 'Error',
                         description: 'Something went wrong. Please try again.',
@@ -43,6 +46,7 @@ export default function Edit(
     const initialData = {
         name: props.feature.data.name,
         description: props.feature.data.description,
+        tags: props.feature.data.tags.map((tag) => tag.name),
     };
 
     return (

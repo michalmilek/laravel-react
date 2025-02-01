@@ -13,10 +13,10 @@ class UserProfileController extends Controller
         
         // Check for 'view' query parameter
         if (request()->query('view') === 'features') {
-            $features = $user->features()->withCount(['comments'])->get(); // Get all features with comments and votes count
+            $features = $user->features()->withCount(['comments'])->paginate(10); // Paginate features, 10 per page
             return Inertia::render('UserProfile', [
                 'user' => $user,
-                'features' => $features, // Pass features to the view
+                'features' => $features, // Pass paginated features to the view
             ]);
         }
 

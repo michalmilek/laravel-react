@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Resources\FeatureListResource;
 use App\Http\Resources\FeatureResource;
 use App\Models\Feature;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
+use Illuminate\Support\Str;
 class FeatureController extends Controller
 {
     public const VALIDATION_RULE = 'required|string|max:255';
@@ -36,9 +37,9 @@ class FeatureController extends Controller
                         ->where('is_upvote', true);
                 }
             ])
-            ->with('comments')
+            ->with(['comments', 'tags'])
             ->paginate(10);
-    
+
         return Inertia::render('Feature/Index', [
             'features' => FeatureListResource::collection($paginatedFeatures),
         ]);
@@ -60,10 +61,39 @@ class FeatureController extends Controller
         $data = $request->validate([
             'name' => self::VALIDATION_RULE,
             'description' => self::VALIDATION_RULE,
+            'tags' => 'nullable|array',
+            'tags.*' => 'string',
         ]);
 
         $data['user_id'] = auth()->user()->id;
-        Feature::create($data);
+        $feature = Feature::create($data);
+
+        if (isset($data['tags']) && is_array($data['tags'])) {
+            $tagIds = [];
+
+            foreach ($data['tags'] as $tagName) {
+
+                $tagName = trim($tagName);
+                if (empty($tagName)) {
+                    continue;
+                }
+
+
+                $tag = Tag::firstOrCreate(
+                    ['name' => $tagName],
+                    ['slug' => Str::slug($tagName)]
+                );
+
+
+                $tagIds[] = $tag->id;
+            }
+
+
+            $feature->tags()->sync($tagIds);
+        } else {
+
+            $feature->tags()->detach();
+        }
 
         return redirect()->route('features.index')->with('success', 'Feature created successfully');
     }
@@ -85,6 +115,7 @@ class FeatureController extends Controller
     {
         return Inertia::render('Feature/Edit', [
             'feature' => new FeatureResource($feature),
+            'allTags' => Tag::all(),
         ]);
     }
 
@@ -96,9 +127,38 @@ class FeatureController extends Controller
         $data = $request->validate([
             'name' => self::VALIDATION_RULE,
             'description' => self::VALIDATION_RULE,
+            'tags' => 'nullable|array',
+            'tags.*' => 'string',
         ]);
 
         $feature->update($data);
+
+        if (isset($data['tags']) && is_array($data['tags'])) {
+            $tagIds = [];
+
+            foreach ($data['tags'] as $tagName) {
+
+                $tagName = trim($tagName);
+                if (empty($tagName)) {
+                    continue;
+                }
+
+
+                $tag = Tag::firstOrCreate(
+                    ['name' => $tagName],
+                    ['slug' => Str::slug($tagName)]
+                );
+
+
+                $tagIds[] = $tag->id;
+            }
+
+
+            $feature->tags()->sync($tagIds);
+        } else {
+
+            $feature->tags()->detach();
+        }
 
         return redirect()->route('features.index')->with('success', 'Feature updated successfully');
     }

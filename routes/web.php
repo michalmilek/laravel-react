@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentUpvoteController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UpvoteController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/user/{id}', [UserProfileController::class, 'show'])->name('user.profile');
 
         Route::post('comments/{comment}/vote', [CommentUpvoteController::class, 'toggle']);
+        
+        Route::resource('tags', TagController::class);
     });
 
 });

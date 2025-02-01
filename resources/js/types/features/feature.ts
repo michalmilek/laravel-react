@@ -67,4 +67,10 @@ export interface FeatureData {
     id: number;
     name: string;
     description: string;
+    tags: Tag[];
+}
+
+export interface Tag {
+    id: number;
+    name: string;
 }

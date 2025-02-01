@@ -11,6 +11,7 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { TagInput } from '@/components/ui/tag-input';
 import { Textarea } from '@/components/ui/textarea';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -27,6 +28,7 @@ const formSchema = z.object({
         .string()
         .min(1, 'Description is required')
         .max(255, 'Description must be 255 characters or less'),
+    tags: z.array(z.string()),
 });
 
 // Define the form input type based on the schema
@@ -44,8 +46,20 @@ export function FeatureForm({ initialData, onSubmit }: FeatureFormProps) {
         defaultValues: initialData || {
             name: '',
             description: '',
+            tags: [],
         },
     });
+
+    const addTag = (tag: string) => {
+        form.setValue('tags', [...(form.getValues('tags') || []), tag]);
+    };
+
+    const removeTag = (tag: string) => {
+        form.setValue(
+            'tags',
+            (form.getValues('tags') || []).filter((t) => t !== tag),
+        );
+    };
 
     return (
         <Form {...form}>
@@ -78,7 +92,7 @@ export function FeatureForm({ initialData, onSubmit }: FeatureFormProps) {
                             <FormControl>
                                 <Textarea
                                     placeholder="Enter feature description"
-                                    className="resize-none"
+                                    className="min-h-[300px] resize-none"
                                     {...field}
                                 />
                             </FormControl>
@@ -87,6 +101,22 @@ export function FeatureForm({ initialData, onSubmit }: FeatureFormProps) {
                                 characters).
                             </FormDescription>
                             <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="tags"
+                    render={() => (
+                        <FormItem>
+                            <FormLabel>Tags</FormLabel>
+                            <FormControl>
+                                <TagInput
+                                    tags={form.getValues('tags') || []}
+                                    addTag={addTag}
+                                    removeTag={removeTag}
+                                />
+                            </FormControl>
                         </FormItem>
                     )}
                 />
