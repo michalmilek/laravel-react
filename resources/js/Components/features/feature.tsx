@@ -49,7 +49,9 @@ export const Feature = ({ feature }: { feature: Datum }) => {
                 <CardContent className="space-y-4">
                     <div>
                         <h3 className="text-lg font-semibold">Description</h3>
-                        <p className="text-gray-600">{feature.description}</p>
+                        <p className="break-all text-gray-600">
+                            {feature.description}
+                        </p>
                     </div>
 
                     <Separator />
