@@ -198,23 +198,22 @@ class FeatureController extends Controller
         $query = $request->input('q', ''); // Get the search term
 
         $features = Feature::query()
-            ->withCount([
-                'comments',
-                'upvotes as upvotes_count' => function($query) {
-                    $query->where('is_upvote', true);
-                },
-                'upvotes as downvotes_count' => function($query) {
-                    $query->where('is_upvote', false);
-                }
-            ])
-            ->whereRaw('LOWER(name) LIKE ?', ['%' . $query . '%']) // Case-insensitive search in name
-            ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $query . '%']) // Case-insensitive search in description
-            ->orWhereHas('tags', function ($tagQuery) use ($query) {
-                $tagQuery->whereRaw('LOWER(name) LIKE ?', ['%' . $query . '%']); // Case-insensitive search in tags
-            })
-            ->limit(5) // Limit results for quick suggestions
-            ->get(); // Return as a collection (no pagination)
-
+        ->withCount([
+            'comments',
+            'upvotes as upvotes_count' => function ($query) {
+                $query->where('is_upvote', true);
+            },
+            'upvotes as downvotes_count' => function ($query) {
+                $query->where('is_upvote', false);
+            }
+        ])
+        ->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($query) . '%']) // Case-insensitive search in name
+        ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($query) . '%']) // Case-insensitive search in description
+        ->orWhereHas('tags', function ($tagQuery) use ($query) {
+            $tagQuery->whereRaw('LOWER(tags.name) LIKE ?', ['%' . strtolower($query) . '%']); // Case-insensitive search in tags
+        })
+        ->limit(5)
+        ->get();
         // Return empty array if no features found
         return response()->json($features->isEmpty() ? [] : $features);
     }

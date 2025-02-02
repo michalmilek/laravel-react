@@ -58,14 +58,14 @@ export const FeatureSearch = () => {
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[300px] p-0">
-                    <Command>
+                    <Command shouldFilter={false}>
                         <CommandInput
                             placeholder="Search..."
                             value={value}
                             onValueChange={handleSearch}
                         />
                         {value && (
-                            <CommandList>
+                            <CommandList className="max-h-[500px] overflow-y-auto">
                                 <CommandEmpty>
                                     {isLoading
                                         ? 'Searching...'
@@ -74,7 +74,7 @@ export const FeatureSearch = () => {
                                 <CommandGroup>
                                     {data?.map((item) => (
                                         <CommandItem
-                                            key={`feature-search-${item.id}`}
+                                            key={`feature-search-${item.id}-${item.name}`}
                                             onSelect={() => {
                                                 redirectToFeature(item.id);
                                                 setOpen(false);
@@ -84,8 +84,15 @@ export const FeatureSearch = () => {
                                             <div className="font-medium">
                                                 {item.name}
                                             </div>
-                                            <div className="line-clamp-1 text-xs text-muted-foreground">
-                                                {item.description}
+                                            <div className="line-clamp-1 break-all text-xs text-muted-foreground">
+                                                {item.description?.substring(
+                                                    0,
+                                                    100,
+                                                ) +
+                                                    (item.description?.length >
+                                                    100
+                                                        ? '...'
+                                                        : '')}
                                             </div>
                                             <div className="flex gap-2 text-xs text-muted-foreground">
                                                 <span
