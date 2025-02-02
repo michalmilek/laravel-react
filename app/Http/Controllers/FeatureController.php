@@ -172,4 +172,42 @@ class FeatureController extends Controller
 
         return redirect()->route('features.index')->with('success', 'Feature deleted successfully');
     }
+
+    public function search(Request $request)
+    {
+        $query = strtolower($request->input('q', '')); // Convert query to lowercase
+
+        // Query the features table with filtering logic
+        $features = Feature::query()
+            ->whereRaw('LOWER(name) LIKE ?', ['%' . $query . '%']) // Case-insensitive search in name
+            ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $query . '%']) // Case-insensitive search in description
+            ->orWhereHas('tags', function ($tagQuery) use ($query) {
+                $tagQuery->whereRaw('LOWER(name) LIKE ?', ['%' . $query . '%']); // Case-insensitive search in tags
+            })
+            ->paginate(10);
+
+        // Return the results to the view or API response
+        return inertia('Features/Search', [
+            'features' => $features,
+            'query' => $query,
+        ]);
+    }
+
+    public function searchFeaturesJSON(Request $request)
+    {
+        $query = $request->input('q', ''); // Get the search term
+
+        $features = Feature::query()
+            ->whereRaw('LOWER(name) LIKE ?', ['%' . $query . '%']) // Case-insensitive search in name
+            ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $query . '%']) // Case-insensitive search in description
+            ->orWhereHas('tags', function ($tagQuery) use ($query) {
+                $tagQuery->whereRaw('LOWER(name) LIKE ?', ['%' . $query . '%']); // Case-insensitive search in tags
+            })
+            ->limit(5) // Limit results for quick suggestions
+            ->get(); // Return as a collection (no pagination)
+
+        // Return empty array if no features found
+        return response()->json($features->isEmpty() ? [] : $features);
+    }
+    
 }

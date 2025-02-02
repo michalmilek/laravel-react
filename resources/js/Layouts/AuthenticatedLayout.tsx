@@ -1,5 +1,6 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
+import { FeatureSearch } from '@/Components/features/feature-search';
 import Footer from '@/Components/Footer';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
@@ -49,6 +50,10 @@ export default function Authenticated({
                                         Features
                                     </NavLink>
                                 </div>
+                            </div>
+
+                            <div className="flex h-full items-center">
+                                <FeatureSearch />
                             </div>
 
                             <div className="hidden sm:ms-6 sm:flex sm:items-center">

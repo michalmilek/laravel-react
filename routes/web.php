@@ -40,6 +40,9 @@ Route::middleware('auth')->group(function () {
         Route::post('comments/{comment}/vote', [CommentUpvoteController::class, 'toggle']);
         
         Route::resource('tags', TagController::class);
+
+        Route::get('/features/search', [FeatureController::class, 'search'])->name('features.search');
+        Route::get('/features/search/json', [FeatureController::class, 'searchFeaturesJSON'])->name('features.search.json');
     });
 
 });
