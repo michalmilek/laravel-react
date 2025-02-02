@@ -207,13 +207,20 @@ class FeatureController extends Controller
                 $query->where('is_upvote', false);
             }
         ])
-        ->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($query) . '%']) // Case-insensitive search in name
-        ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($query) . '%']) // Case-insensitive search in description
-        ->orWhereHas('tags', function ($tagQuery) use ($query) {
-            $tagQuery->whereRaw('LOWER(tags.name) LIKE ?', ['%' . strtolower($query) . '%']); // Case-insensitive search in tags
+        ->where(function($q) use ($query) {
+            $q->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($query) . '%']) // Case-insensitive search in name
+              ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($query) . '%']); // Case-insensitive search in description
+
+            // Only search tags if query contains #
+            if (strpos($query, '#') !== false) {
+                $q->orWhereHas('tags', function ($tagQuery) use ($query) {
+                    $tagQuery->whereRaw('LOWER(tags.name) LIKE ?', ['%' . strtolower(str_replace('#', '', $query)) . '%']); // Case-insensitive search in tags
+                });
+            }
         })
         ->limit(5)
         ->get();
+        
         // Return empty array if no features found
         return response()->json($features->isEmpty() ? [] : $features);
     }

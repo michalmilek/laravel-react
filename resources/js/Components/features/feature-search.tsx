@@ -25,6 +25,12 @@ export const FeatureSearch = () => {
     const { data, isLoading, error } = useGetSearchFeatures({ query: value });
     const { toast } = useToast();
 
+    // Extract all tags from the search query
+    const tags = value
+        .split(' ')
+        .filter((word) => word.startsWith('#'))
+        .map((tag) => tag.slice(1));
+
     const handleSearch = (currentValue: string) => {
         setValue(currentValue);
     };
@@ -41,6 +47,11 @@ export const FeatureSearch = () => {
 
     const redirectToFeature = (id: number) => {
         router.visit(route('features.show', id));
+    };
+
+    // Add redirect to tag page
+    const redirectToTag = (tag: string) => {
+        router.visit(route('tags.show', tag));
     };
 
     return (
@@ -71,7 +82,31 @@ export const FeatureSearch = () => {
                                         ? 'Searching...'
                                         : 'No results found.'}
                                 </CommandEmpty>
-                                <CommandGroup>
+                                {/* Show tag results if any tags are found */}
+                                {tags.length > 0 && (
+                                    <CommandGroup heading="Tags">
+                                        {tags.map((tag, index) => (
+                                            <CommandItem
+                                                key={`tag-search-${index}-${tag}`}
+                                                onSelect={() => {
+                                                    redirectToTag(tag);
+                                                    setOpen(false);
+                                                }}
+                                                className="flex flex-col items-start gap-1"
+                                            >
+                                                <div className="font-medium">
+                                                    Search for tag: #{tag}
+                                                </div>
+                                                <div className="text-xs text-muted-foreground">
+                                                    Click to view all features
+                                                    with this tag
+                                                </div>
+                                            </CommandItem>
+                                        ))}
+                                    </CommandGroup>
+                                )}
+                                {/* Show feature results */}
+                                <CommandGroup heading="Features">
                                     {data?.map((item) => (
                                         <CommandItem
                                             key={`feature-search-${item.id}-${item.name}`}
