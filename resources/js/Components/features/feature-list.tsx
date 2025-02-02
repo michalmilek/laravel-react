@@ -122,7 +122,7 @@ export default function FeatureList({
                             )}
                         </CardHeader>
                         <CardContent>
-                            <p className="mb-2 text-gray-600">
+                            <p className="mb-2 break-all text-gray-600">
                                 {feature.description}
                             </p>
                             <p className="mb-2 text-sm text-gray-500">
