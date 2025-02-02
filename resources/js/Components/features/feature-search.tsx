@@ -15,6 +15,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { useGetSearchFeatures } from '@/services/get-search-features';
 import { router } from '@inertiajs/react';
+import { format } from 'date-fns';
 import { Loader2, Search } from 'lucide-react';
 import * as React from 'react';
 
@@ -78,8 +79,42 @@ export const FeatureSearch = () => {
                                                 redirectToFeature(item.id);
                                                 setOpen(false);
                                             }}
+                                            className="flex flex-col items-start gap-1"
                                         >
-                                            {item.name}
+                                            <div className="font-medium">
+                                                {item.name}
+                                            </div>
+                                            <div className="line-clamp-1 text-xs text-muted-foreground">
+                                                {item.description}
+                                            </div>
+                                            <div className="flex gap-2 text-xs text-muted-foreground">
+                                                <span
+                                                    className={
+                                                        item.upvotes_count > 0
+                                                            ? 'text-green-500'
+                                                            : item.upvotes_count <
+                                                                0
+                                                              ? 'text-red-500'
+                                                              : ''
+                                                    }
+                                                >
+                                                    ↑ {item.upvotes_count}
+                                                </span>
+                                                <span>•</span>
+                                                <span>
+                                                    💬 {item.comments_count}
+                                                </span>
+                                                <span>•</span>
+                                                <span>
+                                                    Last activity:{' '}
+                                                    {format(
+                                                        new Date(
+                                                            item.updated_at,
+                                                        ),
+                                                        'MMM d, yyyy',
+                                                    )}
+                                                </span>
+                                            </div>
                                         </CommandItem>
                                     ))}
                                 </CommandGroup>

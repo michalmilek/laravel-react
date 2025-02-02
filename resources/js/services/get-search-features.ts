@@ -4,6 +4,12 @@ interface FeatureSearchResult {
     id: number;
     name: string;
     description: string;
+    user_id: number;
+    created_at: Date;
+    updated_at: Date;
+    comments_count: number;
+    upvotes_count: number;
+    downvotes_count: number;
 }
 
 export const useGetSearchFeatures = ({ query }: { query: string }) => {

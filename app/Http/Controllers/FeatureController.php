@@ -198,6 +198,15 @@ class FeatureController extends Controller
         $query = $request->input('q', ''); // Get the search term
 
         $features = Feature::query()
+            ->withCount([
+                'comments',
+                'upvotes as upvotes_count' => function($query) {
+                    $query->where('is_upvote', true);
+                },
+                'upvotes as downvotes_count' => function($query) {
+                    $query->where('is_upvote', false);
+                }
+            ])
             ->whereRaw('LOWER(name) LIKE ?', ['%' . $query . '%']) // Case-insensitive search in name
             ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $query . '%']) // Case-insensitive search in description
             ->orWhereHas('tags', function ($tagQuery) use ($query) {
