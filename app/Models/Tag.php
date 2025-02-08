@@ -12,4 +12,12 @@ class Tag extends Model
     {
         return $this->belongsToMany(Feature::class);
     }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

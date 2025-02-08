@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { TagDisplay } from '@/components/ui/tag-display';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { getAvatarUrl } from '@/lib/utils';
 import { Datum } from '@/types/features';
@@ -11,6 +12,7 @@ import { Link } from '@inertiajs/react';
 import { useCallback } from 'react';
 
 export const Feature = ({ feature }: { feature: Datum }) => {
+    console.log('🚀 ~ Feature ~ feature:', feature);
     const user = useCurrentUser();
 
     const getUserRole = useCallback(() => {
@@ -55,6 +57,16 @@ export const Feature = ({ feature }: { feature: Datum }) => {
                     </div>
 
                     <Separator />
+
+                    {feature.tags && feature.tags.length > 0 && (
+                        <>
+                            <div>
+                                <h3 className="text-lg font-semibold">Tags</h3>
+                                <TagDisplay tags={feature.tags} />
+                            </div>
+                            <Separator />
+                        </>
+                    )}
 
                     <div>
                         <h3 className="text-lg font-semibold">User</h3>

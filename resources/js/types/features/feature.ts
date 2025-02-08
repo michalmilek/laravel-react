@@ -19,6 +19,11 @@ export interface Datum {
     user_voted: boolean;
     is_upvote: boolean;
     is_downvote: boolean;
+    tags?: {
+        name: string;
+        slug: string;
+        id: number;
+    }[];
 }
 
 export interface User {
@@ -73,4 +78,11 @@ export interface FeatureData {
 export interface Tag {
     id: number;
     name: string;
+    created_at: string;
+    updated_at: string;
+    slug: string;
+    pivot: {
+        feature_id: number;
+        tag_id: number;
+    };
 }

@@ -75,4 +75,19 @@ class TagController extends Controller
 
         return redirect()->route('tags.index')->with('success', 'Tag deleted successfully!');
     }
+
+    /**
+     * Display the specified tag and its features.
+     */
+    public function show(Tag $tag)
+    {
+        $tag->load(['features' => function($query) {
+            $query->with('user')->withCount('upvotes')->orderBy('created_at', 'desc');
+        }]); // Eager load the features relationship with user and upvotes count
+
+        return inertia('Tags/Show', [
+            'tag' => $tag,
+            'features' => $tag->features
+        ]);
+    }
 }

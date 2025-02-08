@@ -1,5 +1,6 @@
 import { FeatureVote } from '@/Components/features/feature-vote';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -21,7 +22,7 @@ import { getAvatarUrl } from '@/lib/utils';
 import { Datum } from '@/types/features';
 import { dateUtils } from '@/utils';
 import { Link, router, usePage } from '@inertiajs/react';
-import { MoreVertical } from 'lucide-react';
+import { MessageCircle, MoreVertical } from 'lucide-react';
 import { useState } from 'react';
 
 export default function FeatureList({
@@ -173,7 +174,7 @@ export default function FeatureList({
                                     Read More
                                 </Link>
                             </div>
-                            <div className="mt-4">
+                            <div className="mt-4 flex items-center gap-4">
                                 <FeatureVote
                                     featureId={feature.id.toString()}
                                     userVoted={feature.user_voted}
@@ -181,6 +182,13 @@ export default function FeatureList({
                                     isUpvote={feature.is_upvote}
                                     isDownvote={feature.is_downvote}
                                 />
+                                <Badge
+                                    variant={'outline'}
+                                    className="flex items-center gap-3 text-sm text-gray-500"
+                                >
+                                    <MessageCircle />
+                                    {feature.comments.length} comments
+                                </Badge>
                             </div>
                         </CardContent>
                     </Card>
