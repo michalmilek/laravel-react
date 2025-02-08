@@ -1,5 +1,3 @@
-'use client';
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -25,11 +23,13 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { UserStatsCard } from '@/Components/user-profile/user-stats-card';
 import { getAvatarUrl } from '@/lib/utils';
 import { User } from '@/types/user-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { router } from '@inertiajs/react';
 import clsx from 'clsx';
 import { Flag, MessageSquare, MoreHorizontal, UserPlus } from 'lucide-react';
 import { useState } from 'react';
@@ -47,6 +47,8 @@ export const UserProfile = ({
 }: Readonly<UserProfileProps>) => {
     const [isFollowing, setIsFollowing] = useState(false);
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
+    const currentView =
+        new URLSearchParams(window.location.search).get('view') || 'profile';
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
@@ -57,7 +59,6 @@ export const UserProfile = ({
     };
 
     const handleDM = () => {
-        // TODO: Implement DM functionality
         console.log(`Sending DM to ${user.name}`);
     };
 
@@ -95,10 +96,19 @@ export const UserProfile = ({
     });
 
     const submitReport = (data: { reportData: string }) => {
-        // TODO: Implement report submission logic
         console.log(`Reporting ${user.name} with data:`, data.reportData);
         closeDialog();
         reset();
+    };
+
+    const handleViewChange = (value: string) => {
+        router.get(
+            `/user/${user.id}${value !== 'profile' ? `?view=${value}` : ''}`,
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     return (
@@ -118,12 +128,19 @@ export const UserProfile = ({
                         />
                         <AvatarFallback>{user.name[0]}</AvatarFallback>
                     </Avatar>
-                    <div>
+                    <div className="flex-1">
                         <CardTitle>{user.name}</CardTitle>
                         <p className="text-sm text-muted-foreground">
                             {user.email}
                         </p>
                     </div>
+                    <Tabs value={currentView} onValueChange={handleViewChange}>
+                        <TabsList>
+                            <TabsTrigger value="profile">Profile</TabsTrigger>
+                            <TabsTrigger value="features">Features</TabsTrigger>
+                            <TabsTrigger value="comments">Comments</TabsTrigger>
+                        </TabsList>
+                    </Tabs>
                 </CardHeader>
                 <CardContent className="space-y-2">
                     <div className="flex items-center gap-2">

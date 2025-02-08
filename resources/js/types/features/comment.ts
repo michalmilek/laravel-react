@@ -8,6 +8,10 @@ export interface Comment {
         name: string;
         avatar?: string | null;
     };
+    feature: {
+        id: number;
+        name: string;
+    };
     is_downvote: boolean;
     is_upvote: boolean;
     upvotes_count: number;

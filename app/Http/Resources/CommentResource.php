@@ -22,6 +22,10 @@ class CommentResource extends JsonResource
                 'name' => $this->user->name,
                 'avatar' => $this->user->avatar,
             ],
+            'feature' => [
+                'id' => $this->feature->id,
+                'name' => $this->feature->name,
+            ],
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'upvotes_count' => $this->upvotes_count,
             'user_voted' => $this->user_voted ? true : false,

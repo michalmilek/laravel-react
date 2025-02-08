@@ -1,16 +1,12 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Datum } from '@/types/features/feature';
+import { FeaturesPaginated } from '@/types/features';
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import { MessageSquare } from 'lucide-react';
-
-interface DatumWithCommentsCount extends Datum {
-    comments_count: number;
-}
+import { MessageSquare, ThumbsUp } from 'lucide-react';
 
 interface UserFeaturesProps {
-    features: DatumWithCommentsCount[];
+    features: FeaturesPaginated;
     isFullWidth?: boolean;
 }
 
@@ -18,7 +14,6 @@ export function UserFeatures({
     features,
     isFullWidth = false,
 }: UserFeaturesProps) {
-    console.log('🚀 ~ features:', features);
     return (
         <Card
             className={clsx(
@@ -31,13 +26,13 @@ export function UserFeatures({
                 <CardTitle>User's Features</CardTitle>
             </CardHeader>
             <CardContent>
-                {features.length === 0 ? (
+                {features.data.length === 0 ? (
                     <p className="text-muted-foreground">
                         No articles created yet.
                     </p>
                 ) : (
                     <ul className="space-y-4">
-                        {features.map((feature) => (
+                        {features.data.map((feature) => (
                             <li key={feature.id}>
                                 <Card>
                                     <CardHeader>
@@ -50,10 +45,25 @@ export function UserFeatures({
                                             Created{' '}
                                             {format(feature.created_at, 'PPP')}
                                         </p>
-                                        <p className="text-sm text-muted-foreground">
+                                        <p className="flex gap-4 text-sm text-muted-foreground">
                                             <Badge className="text-md inline-flex items-center gap-2">
                                                 <MessageSquare className="h-4 w-4" />
                                                 {feature.comments_count}
+                                            </Badge>
+                                            <Badge
+                                                className={clsx(
+                                                    'text-md inline-flex items-center gap-2',
+                                                    feature.upvotes_count -
+                                                        feature.downvotes_count >
+                                                        0 && 'bg-green-500',
+                                                    feature.upvotes_count -
+                                                        feature.downvotes_count <
+                                                        0 && 'bg-red-500',
+                                                )}
+                                            >
+                                                <ThumbsUp className="h-4 w-4" />
+                                                {feature.upvotes_count -
+                                                    feature.downvotes_count}
                                             </Badge>
                                         </p>
                                     </CardContent>
